@@ -12,9 +12,9 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    @Query("SELECT new com.samu.industry.dto.ProductDetailsDTO(p.id, p.name, p.value) FROM ProductEntity p WHERE p.id = :id")
+    @Query("SELECT new com.samu.industry.dto.ProductDetailsDTO(p.id, p.name, p.price) FROM ProductEntity p WHERE p.id = :id")
     Optional<ProductDetailsDTO> findByIdAsDTO(Long id);
 
-    @Query("SELECT new com.samu.industry.dto.ProductDetailsDTO(p.id, p.name, p.value) FROM ProductEntity p")
+    @Query("SELECT new com.samu.industry.dto.ProductDetailsDTO(p.id, p.name, p.price) FROM ProductEntity p")
     List<ProductDetailsDTO> findAllAsDTO();
 }

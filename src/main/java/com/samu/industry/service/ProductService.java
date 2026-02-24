@@ -1,6 +1,5 @@
 package com.samu.industry.service;
 
-import com.samu.industry.entity.RawMaterialEntity;
 import com.samu.industry.mapper.ProductMapper;
 import com.samu.industry.dto.ProductCreateDTO;
 import com.samu.industry.dto.ProductDetailsDTO;
@@ -33,7 +32,7 @@ public class ProductService {
        ProductEntity product = productRepository.findById(id)
                                                     .orElseThrow(() -> new NotFoundException("Product not found!"));
        product.setName(productDTO.getName());
-       product.setValue(productDTO.getValue());
+       product.setPrice(productDTO.getPrice());
 
        ProductEntity updatedProduct = productRepository.save(product);
        return productMapper.toDetails(updatedProduct);

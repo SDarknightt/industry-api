@@ -19,5 +19,5 @@ public class ProductEntity {
     private String name;
 
     @Column(nullable = false)
-    private double value;
+    private double price;
 }
