@@ -3,6 +3,9 @@ package com.samu.industry.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @Builder
@@ -20,4 +23,7 @@ public class ProductEntity {
 
     @Column(nullable = false)
     private double price;
+
+    @OneToMany
+    Set<ProductMaterialEntity> materials = new HashSet<>();
 }
