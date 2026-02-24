@@ -17,6 +17,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handler() {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("Erro inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                .body(new ErrorResponse("Unexpected error", HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 }
