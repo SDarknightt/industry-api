@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "product_material")
 public class ProductMaterialEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne
