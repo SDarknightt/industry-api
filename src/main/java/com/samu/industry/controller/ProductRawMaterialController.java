@@ -18,9 +18,30 @@ public class ProductRawMaterialController {
     }
 
     @PostMapping("/{materialId}")
-    public ResponseEntity<ProductDetailsDTO> addProduct(@PathVariable @NotNull Long productId, @PathVariable @NotNull Long materialId, @RequestBody @Valid MaterialQuantityDTO quantityDTO) {
-        AddProductDTO addProductDTO = new AddProductDTO(productId, materialId, quantityDTO.materialQuantity());
-        productMaterialService.addProduct(addProductDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ProductMaterialCreateDTO> create(@PathVariable @NotNull Long productId, @PathVariable @NotNull Long materialId, @RequestBody @Valid MaterialQuantityDTO quantityDTO) {
+        ProductMaterialCreateDTO newProductMaterialDTO = new ProductMaterialCreateDTO(productId, materialId, quantityDTO.materialQuantity());
+        productMaterialService.create(newProductMaterialDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProductMaterialDTO);
     }
+
+    @PutMapping("/{materialId}")
+    public ResponseEntity<ProductMaterialUpdateDTO> update(@PathVariable @NotNull Long productId, @PathVariable @NotNull Long materialId, @RequestBody @Valid MaterialQuantityDTO quantityDTO) {
+        ProductMaterialUpdateDTO updatedProductMaterialDTO = new ProductMaterialUpdateDTO(productId, materialId, quantityDTO.materialQuantity());
+        productMaterialService.update(updatedProductMaterialDTO);
+        return ResponseEntity.ok(updatedProductMaterialDTO);
+    }
+
+    @DeleteMapping("/{materialId}")
+    public ResponseEntity<Void> delete(@PathVariable @NotNull Long productId, @PathVariable @NotNull Long materialId) {
+        ProductMaterialDeleteDTO deleteProductMaterialDTO = new ProductMaterialDeleteDTO(productId, materialId);
+        productMaterialService.delete(deleteProductMaterialDTO);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<ProductMaterialDetailsDTO> findAllRawMaterialsByProduct(@PathVariable @NotNull Long productId) {
+        ProductMaterialDetailsDTO productMaterialDetailsDTO = productMaterialService.findAllRawMaterialsByProductId(productId);
+        return ResponseEntity.ok(productMaterialDetailsDTO);
+    }
+
 }

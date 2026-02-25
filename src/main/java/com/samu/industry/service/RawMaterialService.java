@@ -5,8 +5,8 @@ import com.samu.industry.entity.RawMaterialEntity;
 import com.samu.industry.exception.NotFoundException;
 import com.samu.industry.mapper.RawMaterialMapper;
 import com.samu.industry.repository.RawMaterialRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +20,7 @@ public class RawMaterialService {
         this.rawMaterialMapper = rawMaterialMapper;
     }
 
+    @Transactional
     public RawMaterialDetailsDTO create(RawMaterialCreateDTO materialDTO) {
         RawMaterialEntity newMaterial = rawMaterialRepository.save(rawMaterialMapper.toEntity(materialDTO));
         return rawMaterialMapper.toDetails(newMaterial);
@@ -37,17 +38,20 @@ public class RawMaterialService {
     }
 
     // TODO: Maybe change to soft delete
+    @Transactional
     public void delete(Long id) {
         RawMaterialEntity material = rawMaterialRepository.findById(id)
                                                             .orElseThrow(() -> new NotFoundException("Raw material not found!"));
         rawMaterialRepository.delete(material);
     }
 
+    @Transactional(readOnly = true)
     public RawMaterialDetailsDTO findById(Long id) {
         return rawMaterialRepository.findByIdAsDTO(id)
                                     .orElseThrow(() -> new NotFoundException("Raw material not found!"));
     }
 
+    @Transactional(readOnly = true)
     public List<RawMaterialDetailsDTO> findAll() {
         return rawMaterialRepository.findAllAsDTO();
     }

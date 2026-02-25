@@ -33,7 +33,7 @@ public class RawMaterialController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable @NotNull Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @NotNull Long id) {
         rawMaterialService.delete(id);
         return ResponseEntity.ok().build();
     }

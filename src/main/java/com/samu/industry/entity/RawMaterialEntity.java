@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 @Table(name = "raw_material")
 public class RawMaterialEntity {
     @Id
@@ -22,8 +22,8 @@ public class RawMaterialEntity {
     private String name;
 
     @Column(nullable = false)
-    private double stockQuantity;
+    private Double stockQuantity;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     Set<ProductMaterialEntity> products = new HashSet<>();
 }

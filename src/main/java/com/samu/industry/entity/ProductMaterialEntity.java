@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "product_material")
+@Entity
+@Table(name = "product_material")
 public class ProductMaterialEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -23,5 +26,5 @@ public class ProductMaterialEntity {
     private RawMaterialEntity material;
 
     @Column(nullable = false)
-    private double materialQuantity;
+    private Double materialQuantity;
 }

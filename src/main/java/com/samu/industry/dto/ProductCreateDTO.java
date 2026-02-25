@@ -15,5 +15,5 @@ public class ProductCreateDTO {
     @NotBlank
     private String name;
     @NotNull
-    private double price;
+    private Double price;
 }

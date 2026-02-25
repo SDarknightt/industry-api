@@ -17,5 +17,5 @@ public class RawMaterialDetailsDTO {
     @NotBlank
     private String name;
     @NotNull
-    private double stockQuantity;
+    private Double stockQuantity;
 }

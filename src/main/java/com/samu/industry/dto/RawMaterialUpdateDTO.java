@@ -15,5 +15,5 @@ public class RawMaterialUpdateDTO {
     @NotBlank
     private String name;
     @NotNull
-    private double stockQuantity;
+    private Double stockQuantity;
 }

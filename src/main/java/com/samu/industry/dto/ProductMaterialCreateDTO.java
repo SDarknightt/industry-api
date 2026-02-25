@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AddProductDTO {
+public class ProductMaterialCreateDTO {
     private Long productId;
     private Long materialId;
     private Double materialQuantity;

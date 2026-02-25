@@ -7,8 +7,8 @@ import com.samu.industry.dto.ProductUpdateDTO;
 import com.samu.industry.entity.ProductEntity;
 import com.samu.industry.exception.NotFoundException;
 import com.samu.industry.repository.ProductRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
+    @Transactional
     public ProductDetailsDTO create(ProductCreateDTO productDTO) {
         ProductEntity newProduct = productRepository.save(productMapper.toEntity(productDTO));
         return productMapper.toDetails(newProduct);
@@ -39,17 +40,20 @@ public class ProductService {
     }
 
     // TODO: Maybe change to soft delete
+    @Transactional
     public void delete(Long id) {
         ProductEntity product = productRepository.findById(id)
                                                     .orElseThrow(() -> new NotFoundException("Product not found!"));
         productRepository.delete(product);
     }
 
+    @Transactional(readOnly = true)
     public ProductDetailsDTO findById(Long id) {
         return productRepository.findByIdAsDTO(id)
                                     .orElseThrow(() -> new NotFoundException("Product not found!"));
     }
 
+    @Transactional(readOnly = true)
     public List<ProductDetailsDTO> findAll() {
         return productRepository.findAllAsDTO();
     }
