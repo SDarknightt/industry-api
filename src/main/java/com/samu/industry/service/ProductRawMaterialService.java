@@ -68,5 +68,4 @@ public class ProductRawMaterialService {
 
         return new ProductMaterialDetailsDTO(product.getId(), product.getName(), product.getPrice(), rawMaterials);
     }
-
 }

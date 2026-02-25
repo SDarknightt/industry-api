@@ -1,6 +1,7 @@
 package com.samu.industry.repository;
 
 import com.samu.industry.dto.RawMaterialQuantityDetailsDTO;
+import com.samu.industry.entity.ProductEntity;
 import com.samu.industry.entity.ProductMaterialEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,10 +19,25 @@ public interface ProductMaterialRepository extends JpaRepository<ProductMaterial
             m.id,
             m.name,
             m.stockQuantity,
-            pm.materialQuantity
+            pm.materialQuantity,
+            pm.product.id
         )
         FROM ProductMaterialEntity pm
         INNER JOIN pm.material m WHERE pm.product.id = :id
     """)
     List<RawMaterialQuantityDetailsDTO> findAllMaterialsByProductIdAsDTO(Long id);
+
+    @Query("""
+        SELECT new com.samu.industry.dto.RawMaterialQuantityDetailsDTO(
+            m.id,
+            m.name,
+            m.stockQuantity,
+            pm.materialQuantity,
+            pm.product.id
+        )
+        FROM ProductMaterialEntity pm
+        INNER JOIN pm.material m WHERE pm.product IN :products
+    """)
+    List<RawMaterialQuantityDetailsDTO> findAllMaterialsByProductsListAsDTO(List<ProductEntity> products);
+
 }

@@ -3,6 +3,7 @@ package com.samu.industry.controller;
 import com.samu.industry.dto.ProductCreateDTO;
 import com.samu.industry.dto.ProductDetailsDTO;
 import com.samu.industry.dto.ProductUpdateDTO;
+import com.samu.industry.dto.ProductionInfoDTO;
 import com.samu.industry.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +36,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable @NotNull Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @NotNull Long id) {
         productService.delete(id);
         return ResponseEntity.ok().build();
     }
@@ -49,6 +50,12 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDetailsDTO>> findAll() {
         List<ProductDetailsDTO> products = productService.findAll();
+        return ResponseEntity.ok().body(products);
+    }
+
+    @GetMapping("/production")
+    public ResponseEntity<List<ProductionInfoDTO>> getProductionRecommendation() {
+        List<ProductionInfoDTO> products = productService.getProductionRecommendation();
         return ResponseEntity.ok().body(products);
     }
 
