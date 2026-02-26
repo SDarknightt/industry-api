@@ -1,3 +1,5 @@
 package com.samu.industry.dto;
 
-public record MaterialQuantityDTO(Double materialQuantity) {}
+import jakarta.validation.constraints.NotNull;
+
+public record MaterialQuantityDTO(@NotNull Double materialQuantity) {}

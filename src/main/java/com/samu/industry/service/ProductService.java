@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -19,17 +20,32 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMaterialRepository productMaterialRepository;
+    private final ProductRawMaterialService productRawMaterialService;
     private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository, ProductMaterialRepository productMaterialRepository, ProductMapper productMapper) {
+    public ProductService(ProductRepository productRepository, ProductMaterialRepository productMaterialRepository, ProductRawMaterialService productRawMaterialService, ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.productMaterialRepository = productMaterialRepository;
+        this.productRawMaterialService = productRawMaterialService;
         this.productMapper = productMapper;
     }
 
     @Transactional
     public ProductDetailsDTO create(ProductCreateDTO productDTO) {
         ProductEntity newProduct = productRepository.save(productMapper.toEntity(productDTO));
+
+        Optional<List<ProductCreateDTO.RawMaterialQuantityDTO>> rawMaterials = Optional.ofNullable(productDTO.getRawMaterials());
+        // TODO: Change to bulk insert
+        rawMaterials.ifPresent(rawMaterialQuantityDTOS -> rawMaterialQuantityDTOS.forEach(rawMaterial ->
+                productRawMaterialService.create(
+                        new ProductMaterialCreateDTO(
+                                newProduct.getId(),
+                                rawMaterial.id(),
+                                rawMaterial.quantity()
+                        )
+                )
+        ));
+
         return productMapper.toDetails(newProduct);
     }
 

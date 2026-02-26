@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,4 +18,8 @@ public class ProductCreateDTO {
     private String name;
     @NotNull
     private Double price;
+
+    private List<RawMaterialQuantityDTO> rawMaterials;
+
+    public record RawMaterialQuantityDTO(@NotNull Long id, @NotNull Double quantity){};
 }
