@@ -24,6 +24,6 @@ public class RawMaterialEntity {
     @Column(nullable = false)
     private Double stockQuantity;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "material", fetch = FetchType.LAZY)
     Set<ProductMaterialEntity> products = new HashSet<>();
 }

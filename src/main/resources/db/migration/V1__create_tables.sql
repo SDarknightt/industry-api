@@ -1,19 +1,19 @@
 CREATE TABLE product (
-    id    SERIAL PRIMARY KEY,
+    id    BIGSERIAL PRIMARY KEY,
     name  VARCHAR(100)     NOT NULL,
     price DOUBLE PRECISION NOT NULL
 );
 
 CREATE TABLE raw_material (
-    id             SERIAL PRIMARY KEY,
+    id             BIGSERIAL PRIMARY KEY,
     name           VARCHAR(100)     NOT NULL,
     stock_quantity DOUBLE PRECISION NOT NULL
 );
 
 CREATE TABLE product_material (
-    id                SERIAL PRIMARY KEY,
-    product_id        INTEGER           NOT NULL,
-    raw_material_id   INTEGER           NOT NULL,
+    id                BIGSERIAL PRIMARY KEY,
+    product_id        BIGINT           NOT NULL,
+    raw_material_id   BIGINT           NOT NULL,
     material_quantity DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT fk_product_material FOREIGN KEY (product_id) REFERENCES product (id),
