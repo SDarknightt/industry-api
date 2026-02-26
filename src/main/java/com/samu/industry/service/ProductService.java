@@ -70,8 +70,10 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDetailsDTO findById(Long id) {
-        return productRepository.findByIdAsDTO(id)
+        ProductEntity product = productRepository.findById(id)
                                     .orElseThrow(() -> new NotFoundException("Product not found!"));
+        List<RawMaterialQuantityDetailsDTO> rawMaterials = productMaterialRepository.findAllMaterialsByProductIdAsDTO(id);
+        return new ProductMaterialDetailsDTO(product.getId(), product.getName(), product.getPrice(), rawMaterials);
     }
 
     @Transactional(readOnly = true)
