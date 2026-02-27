@@ -14,6 +14,6 @@ public interface RawMaterialRepository extends JpaRepository<RawMaterialEntity, 
     @Query("SELECT new com.samu.industry.dto.RawMaterialDetailsDTO(p.id, p.name, p.stockQuantity) FROM RawMaterialEntity p WHERE p.id = :id")
     Optional<RawMaterialDetailsDTO> findByIdAsDTO(Long id);
 
-    @Query("SELECT new com.samu.industry.dto.RawMaterialDetailsDTO(p.id, p.name, p.stockQuantity) FROM RawMaterialEntity p")
+    @Query("SELECT new com.samu.industry.dto.RawMaterialDetailsDTO(p.id, p.name, p.stockQuantity) FROM RawMaterialEntity p ORDER BY p.id")
     List<RawMaterialDetailsDTO> findAllAsDTO();
 }
