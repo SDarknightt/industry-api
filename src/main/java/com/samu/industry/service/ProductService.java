@@ -104,22 +104,19 @@ public class ProductService {
         productsRawMaterial.forEach((pm) -> productsDetailsMap.get(pm.getProductId()).getMaterials().add(pm));
 
         // Calculate quantities and prices
-        List<ProductionInfoDTO> productionList = productsDetailsMap.values().stream().map((pd) -> {
-            AtomicReference<Double> maxProductionQuantity = new AtomicReference<>(null);
+        List<ProductionInfoDTO> productionList = productsDetailsMap.values().stream()
+        .map(pd -> {
 
-            pd.getMaterials().forEach(material -> {
-                // TODO: Check if it needs to be the entire recipe only
-                double formulationQuantity = Math.floor(material.getStockQuantity() / material.getMaterialQuantity());
-                // Production limited by lowest quantity of raw material
-                if (maxProductionQuantity.get() == null || formulationQuantity < maxProductionQuantity.get()) {
-                    maxProductionQuantity.set(formulationQuantity);
-                }
-            });
+            Double maxProductionQuantity = pd.getMaterials().stream()
+                    .map(material ->
+                            Math.floor(material.getStockQuantity() / material.getMaterialQuantity())
+                    )
+                    .min(Double::compareTo)
+                    .orElse(0d);
 
-            Double totalProductionPrice = maxProductionQuantity.get() * pd.getPrice();
+            pd.setMaxProductionQuantity(maxProductionQuantity);
+            pd.setTotalPrice(maxProductionQuantity * pd.getPrice());
 
-            pd.setTotalPrice(totalProductionPrice);
-            pd.setMaxProductionQuantity(maxProductionQuantity.get());
             return pd;
         })
         .filter(production -> production.getMaxProductionQuantity() >= 1)
