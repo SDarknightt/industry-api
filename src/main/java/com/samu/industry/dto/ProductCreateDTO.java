@@ -1,5 +1,7 @@
 package com.samu.industry.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,10 +18,12 @@ import java.util.List;
 public class ProductCreateDTO {
     @NotBlank
     private String name;
+    @Min(value = 0)
     @NotNull
     private Double price;
 
+    @Valid
     private List<RawMaterialQuantityDTO> rawMaterials;
 
-    public record RawMaterialQuantityDTO(@NotNull Long id, @NotNull Double quantity){};
+    public record RawMaterialQuantityDTO(@NotNull Long id, @NotNull @Min(value = 0) Double quantity){};
 }
